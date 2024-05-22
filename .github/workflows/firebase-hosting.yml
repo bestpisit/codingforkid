@@ -13,6 +13,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      
+      - name: Cache Firebase Tools
+        id: firebase-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/firebase-tools
+          key: firebase-tools-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            firebase-tools-${{ runner.os }}-
+
+      - name: Install Firebase Tools
+        run: |
+          if [ ! -d "~/.cache/firebase-tools" ]; then
+            npm install firebase-tools
+            mkdir -p ~/.cache/firebase-tools
+            cp -r node_modules/firebase-tools ~/.cache/firebase-tools
+          else
+            cp -r ~/.cache/firebase-tools node_modules/firebase-tools
+          fi
 
       - name: Deploy to Firebase Hosting
         run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}

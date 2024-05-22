@@ -45,7 +45,7 @@ p {
 }
 
 .links-list li {
-    margin: 15px 0;
+    margin: 30px;
 }
 
 .links-list a {
@@ -54,12 +54,12 @@ p {
     font-size: 1.5em;
     padding: 10px 20px;
     border-radius: 25px;
-    background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+    background-color: #333;
     color: white;
-    transition: background 0.5s ease, transform 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .links-list a:hover {
-    background: linear-gradient(45deg, #8b00ff, #4b0082, #0000ff, #00ff00, #ffff00, #ff7f00, #ff0000);
-    transform: scale(1.1);
+    background-color: #555;
+    transform: translateY(-3px);
 }

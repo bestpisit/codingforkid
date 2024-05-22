@@ -22,6 +22,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Cache Firebase Tools
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/firebase-tools
+          key: ${{ runner.os }}-firebase-tools
+          restore-keys: |
+            ${{ runner.os }}-firebase-tools
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
       - name: Install Firebase Tools
         run: |
           if [ ! -d "~/.cache/firebase-tools" ]; then

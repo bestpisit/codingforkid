@@ -1,12 +1,38 @@
-var UserLogin = "";
-const chatMessages = [];
+var UserLogin = {};
+let chatMessages = [];
 
-function handleSendMessage() {
+const getChat = async () => {
+    const response = await fetch('http://localhost:3000/rooms/best/chats');
+    const data = await response.json();
+    chatMessages = data;
+    updateConversation();
+    return true;
+}
+
+const postChat = async (username,message) => {
+    const response = await fetch('http://localhost:3000/rooms/best/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, message })
+    });
+}
+
+getChat();
+
+async function handleSendMessage() {
     const userInput = document.getElementById('user-input').value;
     if (userInput) {
-        addMessage(userInput, UserLogin);
-        updateConversation();
-        document.getElementById('user-input').value = "";
+        try{
+            await postChat(UserLogin.name,userInput);
+            await getChat();
+            // addMessage(userInput, UserLogin);
+            document.getElementById('user-input').value = "";
+        }
+        catch(e){
+            console.log(e);
+        }
     }
     else {
         alert("Please Input Message");
@@ -16,7 +42,7 @@ function handleSendMessage() {
 function addMessage(message, user) {
     chatMessages.push(
         {
-            user: user,
+            author: user,
             message: message
         }
     )
@@ -30,7 +56,7 @@ document.getElementById('backButton').addEventListener('click', function () {
 
 window.onload = function () {
     const username = localStorage.getItem('username');
-    UserLogin = username;
+    UserLogin = { name: username };
     document.getElementById('username').innerHTML = username;
 };
 
@@ -38,6 +64,6 @@ function updateConversation() {
     const conversation = document.getElementById('conversation');
     conversation.innerHTML = null;
     for (msg of chatMessages) {
-        conversation.innerHTML += `<div class="chat"><div class="chat-sender">${msg.user} : </div><div class="chat-message">${msg.message}</div</div>`;
+        conversation.innerHTML += `<div class="chat"><div class="chat-sender">${msg.author.name} : </div><div class="chat-message">${msg.message}</div</div>`;
     }
 }

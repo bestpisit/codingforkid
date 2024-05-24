@@ -26,4 +26,4 @@ steps:
     azureSubscription: 'sc-azure'
     scriptType: pscore
     scriptLocation: inlineScript
-    inlineScript: 'az containerapp update --name ''ca-order-service-ff2u-poc'' --resource-group ''rg-ff2u-poc'' --image ''registry.hub.docker.com/559969/order-management-service-order-service:$(Build.BuildId)'' --set-env-vars BUILD_ID=''$(Build.BuildId)'''
+    inlineScript: 'az containerapp update --name ''ca-codingforkids-prod'' --resource-group ''rg-ff2u-poc'' --image ''registry.hub.docker.com/559969/order-management-service-order-service:$(Build.BuildId)'' --set-env-vars BUILD_ID=''$(Build.BuildId)'''

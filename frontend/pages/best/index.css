@@ -1,77 +1,55 @@
 body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: aqua;
     height: 100vh;
-}
-
-.dialogue {
-    width: 80%;
-    height: 80%;
-    background-color: rgb(216, 216, 216);
-    border-radius: 15px;
     display: flex;
     flex-direction: column;
+    padding: 0;
+    margin: 0;
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
-.conversation{
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-}
-
-.input-box {
-    display: flex;
-    overflow: hidden;
-    border: 0;
-}
-
-input{
-    width: 100%;
-    height: 60px;
+.group {
+    font-size: larger;
+    font-style: bold;
     text-align: center;
-    font-size: medium;
-}
-
-button .submit-button {
-    display: flex;
 }
 
 .chat {
-    margin: 10px;
-    display: flex;
-    font-size: large;
-}
-
-.chat-sender {
+    flex-grow: 1;
     background-color: aliceblue;
+    padding: 25px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message-bar {
+    display: flex;
+    height: 50px;
+    padding-bottom: 40px;
+}
+
+#inputbox {
+    flex-grow: 1;
+}
+
+.message {
+    display: flex;
+    gap: 10px;
+}
+
+
+.message .text {
+    background-color: chartreuse;
     padding: 10px;
+    font-size: large;
     border-radius: 10px;
-    word-wrap: break-word;
-    margin-right: 10px;
 }
 
-.chat-message {
-    background-color: rgb(85, 176, 255);
-    padding: 10px;
-    border-radius: 10px;
-    word-wrap: break-word;
-}
-
-#username {
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin: 10px;
-    font: bold;
-    font-size: larger;
-}
-
-#backButton {
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 10px;
+.message .sender {
+    display: flex;
+    align-items: center;
 }

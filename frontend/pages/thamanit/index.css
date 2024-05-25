@@ -1,0 +1,54 @@
+body {
+    background-image: url("https://t4.ftcdn.net/jpg/05/68/06/93/360_F_568069372_X1vDTdjtvKbVLOEegIPZZrIorrHlQc7R.jpg");
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+.group {
+    font-size: larger;
+    font-size: bold;
+    text-align: center;
+}
+
+.chat {
+    flex-grow: 1;
+    background-color: azure;
+    padding: 40px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+.message-bar {
+    display: flex;
+    height: 35px;
+    padding-bottom: 2.5%;
+}
+
+#inputbox {
+    flex-grow: 1;
+}
+
+.message {
+    display: flex;
+    gap: 10px;
+}
+
+.message .text {
+    background-color: greenyellow;
+    padding: 5px;
+    font-size: large;
+    border-radius: 10px;
+}
+
+.message .sender {
+    display: flex;
+    align-items: center;
+}

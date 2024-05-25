@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "codingforkid",
+    "public": "frontend",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

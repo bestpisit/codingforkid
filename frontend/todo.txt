@@ -1,0 +1,8 @@
+Homework challenges
+Introduction to JavaScript
+Data Collections using variable
+Introduction to JSON [quiz]
+Data Collections by Local Storage
+
+Introduction to Synchronous & Asynchronous
+Getting Data With Fetch

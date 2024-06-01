@@ -10,7 +10,7 @@ function clickEvent(){
         }
     );
     //add to localStorage
-    localStorage.setItem('chats',JSON.stringify(chatMessages));
+    localStorage.setItem('chats-gun',JSON.stringify(chatMessages));
 
 }
 
@@ -26,13 +26,13 @@ function backEvent(){
 }
 
 //input
-var chatMessages = JSON.parse(localStorage.getItem('chats'));
+var chatMessages = JSON.parse(localStorage.getItem('chats-gun'));
 
 for(let i of chatMessages){
     addMessage(i.sender,i.message);
 }
 
-console.log(localStorage.getItem('chats'));
+console.log(localStorage.getItem('chats-gun'));
 if(chatMessages == null){
     chatMessages = [];
 }

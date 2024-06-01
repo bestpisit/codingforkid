@@ -53,3 +53,11 @@ body {
     display: flex;
     align-items: center;
 }
+
+.back-button {
+    font-size: 20px;
+    background-color: aliceblue;
+    position: absolute;
+    left: 0;
+    top: 0;
+}

@@ -1,5 +1,5 @@
 body {
-    background-image: url("https://t4.ftcdn.net/jpg/05/68/06/93/360_F_568069372_X1vDTdjtvKbVLOEegIPZZrIorrHlQc7R.jpg");
+    background-color: rgb(203, 255, 255);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -51,4 +51,12 @@ body {
 .message .sender {
     display: flex;
     align-items: center;
+}
+
+.back-button {
+    font-size: 20px;
+    background-color: rgb(114, 255, 255);
+    position: absolute;
+    right: 0%;
+    bottom: 0%;
 }

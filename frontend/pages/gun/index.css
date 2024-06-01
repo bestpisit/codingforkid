@@ -58,3 +58,7 @@ body{
     display: flex;
     align-items: center;
 }
+
+#back-button{
+    position: absolute;
+}

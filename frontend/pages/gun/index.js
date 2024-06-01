@@ -27,15 +27,15 @@ function backEvent(){
 
 //input
 var chatMessages = JSON.parse(localStorage.getItem('chats-gun'));
+if(chatMessages == null){
+    chatMessages = [];
+}
 
 for(let i of chatMessages){
     addMessage(i.sender,i.message);
 }
 
 console.log(localStorage.getItem('chats-gun'));
-if(chatMessages == null){
-    chatMessages = [];
-}
 
 
 //process

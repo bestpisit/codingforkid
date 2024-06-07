@@ -4,5 +4,7 @@ Data Collections using variable
 Introduction to JSON [quiz]
 Data Collections by Local Storage
 
+CRUD
+Code Refactoring
 Introduction to Synchronous & Asynchronous
 Getting Data With Fetch

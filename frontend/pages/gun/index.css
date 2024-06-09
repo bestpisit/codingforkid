@@ -1,5 +1,4 @@
 body{
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo_xoLey0LyV4aVHpnPM1Nb-GxtJKQDCWXWw&s");
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -18,7 +17,6 @@ body{
 
 .chat{
     flex-grow: 1;
-    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Anonymous_Hacker.png/800px-Anonymous_Hacker.png");
     padding: 20px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;

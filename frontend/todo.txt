@@ -6,5 +6,7 @@ Data Collections by Local Storage
 
 CRUD
 Code Refactoring
-Introduction to Synchronous & Asynchronous
+Delete Operation
+Introduction to Database
 Getting Data With Fetch
+Introduction to Synchronous & Asynchronous

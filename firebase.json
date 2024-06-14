@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "site": "codingforkid",
+      "site": "codingforkids-test",
       "public": "frontend",
       "ignore": [
         "firebase.json",

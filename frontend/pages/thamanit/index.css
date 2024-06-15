@@ -60,3 +60,13 @@ body {
     right: 0%;
     bottom: 0%;
 }
+
+/* Hover effect */
+.text {
+    cursor: pointer; /* Change cursor to pointer when hovering over text */
+}
+
+.text:hover {
+    background-color: purple; /* Change background color on hover */
+    color: white; /* Change text color on hover */
+}

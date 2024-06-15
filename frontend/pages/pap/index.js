@@ -58,7 +58,9 @@ function updateMessages(key, messages) {
 
 function deleteMessage(index) {
     //TODO
+    if(confirm("ห้ามกดเดียวโดนhack") == true){
     chatMessages.splice(index,1);
     displayMessages(chatMessages);
     updateMessages(chatConfiguration.name, chatMessages);
+    }
 } 

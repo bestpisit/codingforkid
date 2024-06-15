@@ -1,6 +1,7 @@
-
-
-body{
+body {
+    /* background-image: url("https://media.istockphoto.com/id/514258630/vector/flame-bg.jpg?s=612x612&w=0&k=20&c=OHc4BBZWX6piC36ew5DkC9cVuHDHEGZFtuc-6T0oODo=");
+    background-size: cover;
+    background-repeat: no-repeat; */
     background: linear-gradient(0deg, #ff0000, rgb(161, 69, 69));
     height: 100vh;
     flex-direction: column;
@@ -9,15 +10,16 @@ body{
     margin: 0;
     padding-left: 20%;
     padding-right: 20%;
-
 }
-.group{
+
+.group {
     font-size: larger;
     font-weight: bolder;
     text-align: center;
-    color : white;
+    color: white;
 }
-.chatarea{
+
+.chatarea {
     flex-grow: 1;
     background-color: white;
     padding: 25px;
@@ -25,64 +27,90 @@ body{
     border-top-right-radius: 20px;
     display: flex;
     flex-direction: column;
-    gap : 10px
+    gap: 10px;
+}
 
+.message {
+    display: flex;
+    gap: 10px;
+    position: relative; /* Added for positioning delete button */
 }
-.message{
-    display : flex;
-    gap : 10px;
-}
-.message .text{
-    outline: none; 
-    border: 1px solid rgb(255,74,86,1); 
-    color : white;
-    background-image: linear-gradient(45deg, rgb(255,74,86,1), rgb(161, 69, 69)); 
-    padding: 10px; 
-    font-size: 14px; 
-    border-radius: 5px; 
+
+.message .text {
+    outline: none;
+    border: 1px solid rgb(255, 74, 86, 1);
+    color: white;
+    background-image: linear-gradient(45deg, rgb(255, 74, 86, 1), rgb(161, 69, 69));
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
     padding: 3px;
 }
-.message_bar{
+
+.message_bar {
     display: flex;
     height: 30px;
     padding-bottom: 5%;
 }
-.message .sender{
+
+.message .sender {
     display: flex;
     align-items: center;
 }
-#inputbar{
-    
-    flex-grow: 1;   
+
+#inputbar {
+    flex-grow: 1;
 }
-#send_button{
-    border: 1px solid rgb(255, 0, 0); 
-    color : rgb(255, 0, 0);
-    background-image: linear-gradient(60deg, rgb(255, 255, 255), rgb(255, 222, 222)); 
+
+#send_button {
+    border: 1px solid rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
+    background-image: linear-gradient(60deg, rgb(255, 255, 255), rgb(255, 222, 222));
     border-radius: 5px;
 }
-#send_button:hover{
-    border: 1px solid rgb(194, 1, 1); 
-    color : rgb(118, 48, 48);
-    background-image: linear-gradient(60deg, rgb(225, 191, 191), rgb(193, 117, 117)); 
+
+#send_button:hover {
+    border: 1px solid rgb(194, 1, 1);
+    color: rgb(118, 48, 48);
+    background-image: linear-gradient(60deg, rgb(225, 191, 191), rgb(193, 117, 117));
 }
-#back_button{
-    border: 3px solid rgb(255, 0, 0); 
+
+#unsend_button {
+    border: 1px solid rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
+    background-image: linear-gradient(60deg, rgb(255, 255, 255), rgb(255, 222, 222));
+    border-radius: 5px;
+}
+
+#unsend_button:hover {
+    border: 1px solid rgb(194, 1, 1);
+    color: rgb(118, 48, 48);
+    background-image: linear-gradient(60deg, rgb(225, 191, 191), rgb(193, 117, 117));
+}
+
+#back_button {
+    border: 3px solid rgb(255, 0, 0);
     border-radius: 5px;
     font-size: 25px;
     text-shadow: 1px 1px 2px rgb(74, 57, 57), 0 0 25px rgb(255, 0, 0), 0 0 5px rgb(255, 0, 0);
-    color : rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
     background: white;
-    position:absolute;
-    left : 0;
-    top : 0;
-    
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
-#back_button:hover{
-    border: 3px solid rgb(211, 209, 209); 
+#back_button:hover {
+    border: 3px solid rgb(211, 209, 209);
     border-radius: 3px;
     font-size: 20 px;
-    color : rgb(238, 238, 238);
+    color: rgb(238, 238, 238);
     background: linear-gradient(45deg, #795959, #906233, #888851, #548f54, #59599f, #64417d, #723c9f);
+}
+
+.text:hover{
+    font-size: 20 px;
+    color: rgb(238, 238, 238);
+    border: 1px solid rgb(255, 255, 255);
+    background: linear-gradient(45deg,rgb(226, 35, 226),rgb(106, 8, 106));
 }

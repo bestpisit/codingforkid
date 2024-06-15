@@ -13,9 +13,17 @@ body {
 }
 
 @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .container {
@@ -62,4 +70,8 @@ p {
 .links-list a:hover {
     background-color: #555;
     transform: translateY(-3px);
+}
+
+#username {
+    font-size: x-large;
 }

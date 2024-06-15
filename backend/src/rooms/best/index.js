@@ -45,7 +45,8 @@ router.get('/chats', async (req, res) => {
                             }
                         },
                         message: true,
-                        timeStamp: true
+                        timeStamp: true,
+                        id: true
                     }
                 }
             }
@@ -80,5 +81,20 @@ router.post('/chat', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 })
+
+router.delete('/chat/:id', async (req, res) => {
+    const messageId = parseInt(req.params.id);
+    try {
+        const deletedMessage = await prisma.message.delete({
+            where: {
+                id: messageId
+            }
+        });
+        res.json(deletedMessage);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 module.exports = router;

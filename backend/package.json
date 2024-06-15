@@ -4,7 +4,8 @@
   "description": "Backend server for codingforkids class",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "boot": "npm i && npx prisma generate && npx prisma migrate deploy"
   },
   "keywords": [
     "codingforkids-backend"

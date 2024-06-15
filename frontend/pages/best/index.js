@@ -1,69 +1,75 @@
-var UserLogin = {};
-let chatMessages = [];
+//Setup
+const chatConfiguration = {
+    name: "chats-best"
+};
 
-const getChat = async () => {
-    const response = await fetch('http://localhost:3000/rooms/best/chats');
-    const data = await response.json();
-    chatMessages = data;
-    updateConversation();
-    return true;
+const chatMessages = readMessages(chatConfiguration.name);
+
+main();
+function main() {
+    document.getElementById('chat-name').innerText = chatConfiguration.name;
+    displayMessages(chatMessages);
 }
 
-const postChat = async (username,message) => {
-    const response = await fetch('http://localhost:3000/rooms/best/chat', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, message })
-    });
+//  Events
+document.getElementById('send-button').addEventListener('click', handleSendMessage);
+document.getElementById('back-button').addEventListener('click', () => window.history.back());
+
+//  Functions
+function handleSendMessage() {
+    const text = document.getElementById("inputbox").value;
+    if (!text) { return; }
+    document.getElementById("inputbox").value = '';
+    createMessage(localStorage.getItem('username'), text, chatMessages);
+    updateMessages(chatConfiguration.name, chatMessages);
+    displayMessages(chatMessages);
 }
 
-getChat();
-
-async function handleSendMessage() {
-    const userInput = document.getElementById('user-input').value;
-    if (userInput) {
-        try{
-            await postChat(UserLogin.name,userInput);
-            await getChat();
-            // addMessage(userInput, UserLogin);
-            document.getElementById('user-input').value = "";
-        }
-        catch(e){
-            console.log(e);
-        }
-    }
-    else {
-        alert("Please Input Message");
+function displayMessages(messages) {
+    const chat = document.getElementById('chat');
+    chat.innerHTML = '';
+    for (i of messages) {
+        const sender = i.sender;
+        const message = i.message;
+        chat.innerHTML += `<div class="message"> <div class="sender"> ${sender} </div> <div class="text"> ${message} </div> </div>`;
     }
 }
 
-function addMessage(message, user) {
-    chatMessages.push(
+// CRUD
+function createMessage(sender, message, messages) {
+    messages.push(
         {
-            author: user,
+            sender: sender,
             message: message
         }
     )
 }
 
-document.getElementById('submit-button').addEventListener('click', handleSendMessage);
-
-document.getElementById('backButton').addEventListener('click', function () {
-    window.history.back();
-});
-
-window.onload = function () {
-    const username = localStorage.getItem('username');
-    UserLogin = { name: username };
-    document.getElementById('username').innerHTML = username;
-};
-
-function updateConversation() {
-    const conversation = document.getElementById('conversation');
-    conversation.innerHTML = null;
-    for (msg of chatMessages) {
-        conversation.innerHTML += `<div class="chat"><div class="chat-sender">${msg.author.name} : </div><div class="chat-message">${msg.message}</div</div>`;
+function readMessages(key) {
+    const messages = localStorage.getItem(key);
+    if (!messages) {
+        return [];
     }
+    return JSON.parse(messages);
 }
+
+function updateMessages(key, messages) {
+    localStorage.setItem(key, JSON.stringify(messages));
+}
+
+function deleteMessage() {
+    //TODO
+}
+
+// function updateMessages(key, messages) {
+//     return new Promise((resolve, reject) => {
+//         try {
+//             localStorage.setItem(key, JSON.stringify(messages));
+//             setTimeout(() => {
+//                 resolve();
+//             }, 1000);
+//         } catch (error) {
+//             reject(error);
+//         }
+//     });
+// }

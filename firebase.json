@@ -1,11 +1,22 @@
 {
-  "hosting": {
-    "site": "codingforkid",
-    "public": "frontend",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  }
+  "hosting": [
+    {
+      "site": "codingforkids-test",
+      "public": "frontend",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    },
+    {
+      "site": "codingforkids",
+      "public": "frontend",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    }
+  ]
 }

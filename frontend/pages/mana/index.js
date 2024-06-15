@@ -59,9 +59,11 @@ function updateMessages(key, messages) {
 }
 
 function deleteMessage(index) {
+    if(confirm("Are you sure") == true){
     chatMessages.splice(index,1);
     displayMessages(chatMessages);
     updateMessages(chatConfiguration.name,chatMessages)
+    }
 }
 
 

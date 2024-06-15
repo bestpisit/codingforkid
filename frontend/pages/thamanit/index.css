@@ -1,4 +1,5 @@
-body{
+body {
+    background-color: rgb(203, 255, 255);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -8,55 +9,54 @@ body{
     padding-right: 20%;
 }
 
-.group{
+.group {
     font-size: larger;
-    font-style: bold;
-    color: rgb(255, 255, 255);
+    font-size: bold;
     text-align: center;
 }
 
-.chat{
+.chat {
     flex-grow: 1;
-    padding: 20px;
+    background-color: azure;
+    padding: 40px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap:10px;
 }
 
-.messagebar{
+.message-bar {
     display: flex;
     height: 35px;
-    padding-bottom: 20px;
+    padding-bottom: 2.5%;
 }
 
-#inputbox{
+#inputbox {
     flex-grow: 1;
 }
 
-.message{
+.message {
     display: flex;
     gap: 10px;
-
 }
 
-.message .text{
-    background-color: rgb(255, 0, 0);
+.message .text {
+    background-color: greenyellow;
     padding: 5px;
     font-size: large;
     border-radius: 10px;
 }
 
-.message .sender{
-    background-color: white;
-    border-radius: 10px;
-    padding: 5px;
-    color: black;
+.message .sender {
     display: flex;
     align-items: center;
 }
 
-#back-button{
+.back-button {
+    font-size: 20px;
+    background-color: rgb(114, 255, 255);
     position: absolute;
+    right: 0%;
+    bottom: 0%;
 }

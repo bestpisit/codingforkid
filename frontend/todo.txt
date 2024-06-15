@@ -1,0 +1,12 @@
+Homework challenges
+Introduction to JavaScript
+Data Collections using variable
+Introduction to JSON [quiz]
+Data Collections by Local Storage
+
+CRUD
+Code Refactoring
+Delete Operation
+Introduction to Backend
+Getting Data With Fetch
+Introduction to Synchronous & Asynchronous

@@ -6,6 +6,7 @@ const port = 3000;
 
 const { PrismaClient } = require('@prisma/client');
 const roomRouter = require('./src/rooms');
+const mockupRouter = require('./mockup');
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -25,6 +26,8 @@ app.use((req, res, next) => {
     next();
 })
 app.use('/rooms',roomRouter);
+
+app.use('/mockup', mockupRouter);
 
 app.listen(port, () => {
     console.log(`Coding For Kids Server is opening on port ${port}`);

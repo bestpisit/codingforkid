@@ -95,6 +95,20 @@ function deleteMessage() {
 
 
 // console.log(localStorage.getItem('chats-gun'));
+    chat.innerHTML += `<div class="message"> <div class="sender"> ${user} </div> <div class="text"> ${message} </div> </div>`;
+}
+
+document.getElementById('back-button').addEventListener('click',backEvent);
+
+function backEvent(){
+    window.history.back();
+}
+
+//input
+var chatMessages = JSON.parse(localStorage.getItem('chats-gun'));
+if(chatMessages == null){
+    chatMessages = [];
+}
 
 
 // function createMessage(user, message) {
@@ -133,6 +147,18 @@ function deleteMessage() {
 // // for(let i = 0;i<5;i++){
 // //     console.log(i)
 // // }
+for(let i of chatMessages){
+    addMessage(i.sender,i.message);
+}
+
+console.log(localStorage.getItem('chats-gun'));
+
+
+//process
+
+// for(let i = 0;i<5;i++){
+//     console.log(i)
+// }
 
 // // for(let i in user){
 // //     console.log(user[i]+": ",message[i]);

@@ -7,6 +7,7 @@ const chatMessages = readMessages(chatConfiguration.name);
 
 main();
 function main() {
+    // document.getElementById('chat-name').innerHTML = chatConfiguration.name
     displayMessages(chatMessages);
 }
 
@@ -27,10 +28,10 @@ function handleSendMessage() {
 function displayMessages(messages) {
     const chat = document.getElementById('chat');
     chat.innerHTML = '';
-    for (i of messages) {
-        const sender = i.sender;
-        const message = i.message;
-        chat.innerHTML += `<div class="message"> <div class="sender"> ${sender} </div> <div class="text"> ${message} </div> </div>`;
+    for (i in messages) {
+        const sender = messages[i].sender;
+        const message = messages[i].message;
+        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div><div class="text"> ${message} </div><button onclick="deleteMessage(${i})">x</button></div>`;
     }
 }
 
@@ -56,6 +57,10 @@ function updateMessages(key, messages) {
     localStorage.setItem(key, JSON.stringify(messages));
 }
 
-function deleteMessage() {
+function deleteMessage(index) {
     //TODO
+    alert("You sure?");
+    chatMessages.splice(index,1);
+    displayMessages(chatMessages);
+    updateMessages(chatConfiguration.name, chatMessages);
 }

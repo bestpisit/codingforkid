@@ -30,7 +30,7 @@ function displayMessages(messages) {
     for (i of messages) {
         const sender = i.sender;
         const message = i.message;
-        chat.innerHTML += `<div class="message"> <div class="sender"> ${sender} </div> <div class="text"> ${message} </div> </div>;`
+        chat.innerHTML += `<div class="message"> <div class="sender"> ${sender} </div> <div class="text"> ${message} </div> </div>`;
     }
 }
 

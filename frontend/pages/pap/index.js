@@ -1,36 +1,64 @@
-document.getElementById('send-buttom').addEventListener('click',clickEvent);
+//Setup
+const chatConfiguration = {
+    name: "chats-best"
+};
 
-function clickEvent(){
-    var text = document.getElementById('inputbox').value;
-    addMessage(localStorage.getItem('username'),text);
-    chatmessage.push(
+const chatMessages = readMessages(chatConfiguration.name);
+
+main();
+function main() {
+     displayMessages(chatMessages);
+}
+
+//  Events
+document.getElementById('send-buttom').addEventListener('click', handleSendMessage);
+document.getElementById('backclickevent').addEventListener('click', () => window.history.back());
+
+//  Functions
+function handleSendMessage() {
+    const text = document.getElementById("inputbox").value;
+    if (!text) { return; }
+    document.getElementById("inputbox").value = '';
+    createMessage(localStorage.getItem('username'), text, chatMessages);
+    updateMessages(chatConfiguration.name, chatMessages);
+    displayMessages(chatMessages);
+}
+
+function displayMessages(messages) {
+    const chat = document.getElementById('chat');
+    chat.innerHTML = '';
+    for (i in messages) {
+        const sender = messages[i].sender;
+        const message = messages[i].message;
+        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div><div class="text"> ${message} </div><button onclick="deleteMessage(${i})">X</button></div>`;
+    }
+}
+
+// CRUD
+function createMessage(sender, message, messages) {
+    messages.push(
         {
-            sender: localStorage.getItem('username'),
-            message: text
+            sender: sender,
+            message: message
         }
     )
-    //add to localstorage
-    localStorage.setItem('chats-pap',JSON.stringify(chatmessage));
 }
 
-function addMessage(user,message){
-    const chat = document.getElementById('chat');
-    chat.innerHTML += `<div class="message"> <div class="sender"> ${user} </div> <div class="text"> ${message} </div> </div>`
+function readMessages(key) {
+    const messages = localStorage.getItem(key);
+    if (!messages) {
+        return [];
+    }
+    return JSON.parse(messages);
 }
 
-document.getElementById('backclickevent').addEventListener('click',clickbackEvent);
-
-function clickbackEvent(){
-    window.history.back();
+function updateMessages(key, messages) {
+    localStorage.setItem(key, JSON.stringify(messages));
 }
 
-
-var chatmessage = JSON.parse(localStorage.getItem('chats-pap'));
-if(chatmessage == null){
-    chatmessage = [];
-}
-
-for(let i of chatmessage){
-    addMessage(i.sender,i.message)
-}
-
+function deleteMessage(index) {
+    //TODO
+    chatMessages.splice(index,1);
+    displayMessages(chatMessages);
+    updateMessages(chatConfiguration.name, chatMessages);
+} 

@@ -24,8 +24,6 @@ body{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background-image: url("https://theday.co.uk/wp-content/uploads/2023/01/humpty-26-01-23.jpg");
-    opacity: 0.15;
 }
 
 .messagebar{
@@ -62,4 +60,12 @@ body{
 
 #back-button{
     position: absolute;
+}
+
+.del-button{
+    display: none;
+}
+
+.message:hover .del-button {
+    display: flex;
 }

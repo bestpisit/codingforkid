@@ -57,7 +57,9 @@ function updateMessages(key, messages) {
 }
 
 function deleteMessage(index) {
-    chatMessages.splice(index,1)
-    displayMessages(chatMessages);
-    updateMessages(chatConfiguration.name,chatMessages)
+    if(confirm("Sure Yang?") == true){
+        chatMessages.splice(index,1)
+        displayMessages(chatMessages);
+        updateMessages(chatConfiguration.name,chatMessages)
+    }
 } 

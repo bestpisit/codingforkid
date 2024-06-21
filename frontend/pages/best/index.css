@@ -111,3 +111,11 @@ body {
     background-color: #007bff;
     color: #ffffff;
 }
+
+.del-button {
+    display: none;
+}
+
+.message:hover .del-button {
+    display: flex;
+}

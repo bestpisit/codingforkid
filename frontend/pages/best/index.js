@@ -1,75 +1,80 @@
-//Setup
+// Setup
 const chatConfiguration = {
     name: "chats-best"
 };
 
-const chatMessages = readMessages(chatConfiguration.name);
+document.addEventListener("DOMContentLoaded", main);
 
-main();
-function main() {
+async function main() {
     document.getElementById('chat-name').innerText = chatConfiguration.name;
-    displayMessages(chatMessages);
+    await displayMessages();
+
+    // Event listeners
+    document.getElementById('send-button').addEventListener('click', handleSendMessage);
+    document.getElementById('back-button').addEventListener('click', () => window.history.back());
 }
 
-//  Events
-document.getElementById('send-button').addEventListener('click', handleSendMessage);
-document.getElementById('back-button').addEventListener('click', () => window.history.back());
-
-//  Functions
-function handleSendMessage() {
+// Functions
+async function handleSendMessage() {
     const text = document.getElementById("inputbox").value;
+    const username = localStorage.getItem('username') || 'defaultUser';
     if (!text) { return; }
     document.getElementById("inputbox").value = '';
-    createMessage(localStorage.getItem('username'), text, chatMessages);
-    updateMessages(chatConfiguration.name, chatMessages);
-    displayMessages(chatMessages);
+
+    await createMessage(chatConfiguration.name, username, text);
+    await displayMessages();
 }
 
-function displayMessages(messages) {
+async function displayMessages() {
     const chat = document.getElementById('chat');
     chat.innerHTML = '';
-    for (i of messages) {
-        const sender = i.sender;
-        const message = i.message;
-        chat.innerHTML += `<div class="message"> <div class="sender"> ${sender} </div> <div class="text"> ${message} </div> </div>`;
+
+    const messages = await fetchMessages(chatConfiguration.name);
+    for (let i = 0; i < messages.length; i++) {
+        const sender = messages[i].author.name;
+        const message = messages[i].message;
+        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div><div class="text"> ${message} </div><button class="del-button" onclick="deleteMessage(${i}, ${messages[i].id})">X</button></div>`;
     }
 }
 
-// CRUD
-function createMessage(sender, message, messages) {
-    messages.push(
-        {
-            sender: sender,
-            message: message
-        }
-    )
+// CRUD Operations
+async function createMessage(room, username, message) {
+    try {
+        await fetch(`http://localhost:3000/rooms/${room}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message, username })
+        });
+    } catch (error) {
+        console.error('Error creating message:', error);
+    }
 }
 
-function readMessages(key) {
-    const messages = localStorage.getItem(key);
-    if (!messages) {
+async function fetchMessages(room) {
+    try {
+        const response = await fetch(`http://localhost:3000/rooms/${room}`);
+        if (response.ok) {
+            return await response.json();
+        } else {
+            console.error('Error fetching messages:', response.statusText);
+            return [];
+        }
+    } catch (error) {
+        console.error('Error fetching messages:', error);
         return [];
     }
-    return JSON.parse(messages);
 }
 
-function updateMessages(key, messages) {
-    localStorage.setItem(key, JSON.stringify(messages));
+async function deleteMessage(index, messageId) {
+    const room = chatConfiguration.name;
+    if (confirm("Are you sure?")) {
+        try {
+            await fetch(`http://localhost:3000/rooms/${room}/${messageId}`, {
+                method: 'DELETE'
+            });
+            await displayMessages();
+        } catch (error) {
+            console.error('Error deleting message:', error);
+        }
+    }
 }
-
-function deleteMessage() {
-    //TODO
-}
-
-// function updateMessages(key, messages) {
-//     return new Promise((resolve, reject) => {
-//         try {
-//             localStorage.setItem(key, JSON.stringify(messages));
-//             setTimeout(() => {
-//                 resolve();
-//             }, 1000);
-//         } catch (error) {
-//             reject(error);
-//         }
-//     });
-// }

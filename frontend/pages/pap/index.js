@@ -1,6 +1,6 @@
 //Setup
 const chatConfiguration = {
-    name: "chats-best"
+    name: "chats-pap"
 };
 
 const chatMessages = readMessages(chatConfiguration.name);
@@ -30,7 +30,7 @@ function displayMessages(messages) {
     for (i in messages) {
         const sender = messages[i].sender;
         const message = messages[i].message;
-        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div><div class="text"> ${message} </div><button onclick="deleteMessage(${i})">X</button></div>`;
+        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div><div class="text"> ${message} </div><button class="del-buttom" onclick="deleteMessage(${i})">X</button></div>`;
     }
 }
 

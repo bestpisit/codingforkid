@@ -8,48 +8,77 @@ body {
     padding: 0;
     margin: 0;
     font-family: 'Arial', sans-serif;
+    overflow: hidden;
 }
 
 .group {
-    font-size: larger;
-    font-weight: bolder;
+    font-size: 1.5rem;
+    font-weight: bold;
     text-align: center;
-    color: rgb(255, 255, 255);
+    color: #ffffff;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .chatarea {
     flex-grow: 1;
-    width: 100%;
+    width: 90%;
     max-width: 600px;
     background-color: #ffffff;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
+    animation: slideIn 0.5s ease-in-out;
+    overflow-y: auto;
 }
 
 .message {
     display: flex;
+    justify-content: space-between;
     width: 100%;
-    max-width: 600px;
     margin-top: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+    position: relative;
 }
 
 .message .text {
-    background-color: #85fff1;
-    padding: 10px;
-    font-size: 16px;
+    background-color: #ffe6d9;
+    padding: 15px;
+    font-size: 1rem;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     word-break: break-word;
+    color: #495057;
+    flex-grow: 1;
+}
+
+.message .del-button {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    color: #ff5d17;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+}
+
+.message:hover .del-button {
+    display: block;
 }
 
 .message_bar {
     display: flex;
-    height: 30px;
+    width: 90%; /* Adjusted to fit better */
+    max-width: 600px; /* Consistent max width */
+    align-items: center;
     padding-bottom: 5%;
+    gap: 10px;
 }
 
 .message .sender {
@@ -59,47 +88,88 @@ body {
 
 #inputbar {
     flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 25px;
+    font-size: 0.875rem;
+    color: #495057;
+    transition: border-color 0.3s ease;
+    outline: none;
+    height: 30px;
+}
+
+#inputbar:focus {
+    border-color: #ff5d17;
+    box-shadow: 0 0 8px rgba(255, 93, 23, 0.2); /* Subtle shadow on focus */
 }
 
 #send_button {
-    background-color: #ffffff;
-    color: rgb(255, 0, 0);
-    border: 2px solid #ff0000;
+    background-color: #ff5d17;
+    color: #ffffff;
     border: none;
     border-radius: 25px;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #send_button:hover {
-    background-color: #ff0000;
-    color: #ffffff;
+    background-color: #e64a00;
+    transform: scale(1.05);
 }
 
 #back_button {
-    font-size: 16px;
+    font-size: 1rem;
     background-color: #ffffff;
-    color: #ff0000;
-    border: 2px solid #ff0000;
+    color: #ff5d17;
+    border: 2px solid #ff5d17;
     border-radius: 25px;
     padding: 5px 15px;
     position: absolute;
     left: 20px;
     top: 20px;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 #back_button:hover {
-    background-color: #ff0000;
+    background-color: #ff5d17;
     color: #ffffff;
+    transform: scale(1.05);
 }
 
-.text:hover{
-    font-size: 20 px;
-    color: rgb(238, 238, 238);
-    border: 1px solid rgb(255, 255, 255);
-    background: linear-gradient(45deg,rgb(226, 35, 226),rgb(106, 8, 106));
+/* Keyframes for animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes newMessage {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

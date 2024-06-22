@@ -70,3 +70,11 @@ body {
     background-color: purple; /* Change background color on hover */
     color: white; /* Change text color on hover */
 }
+
+.del-button{
+    display:none;
+}
+
+.message:hover .del-button{
+    display:block;
+}

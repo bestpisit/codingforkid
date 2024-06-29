@@ -1,64 +1,65 @@
-document.getElementById('send-button').addEventListener('click',clickEvent);
+//Setup
+const chatConfiguration = {
+    name: "chats-anda"
+};
 
-function clickEvent(){
-    var text = document.getElementById('inputbox').value;
-    addMessage(localStorage.getItem('username'),text)
-    chatMessages.push(
-        {
-        sender : localStorage.getItem('username'),
-        message : text
-        }
-    );
-    //add to localstorage
-    localStorage.setItem('chats-anda',JSON.stringify(chatMessages));
+const chatMessages = readMessages(chatConfiguration.name);
+
+main();
+function main() {
+    displayMessages(chatMessages);
 }
 
-document.getElementById('back-button').addEventListener('click',backEvent);
+//  Events
+document.getElementById('send-button').addEventListener('click', handleSendMessage);
+document.getElementById('back-button').addEventListener('click', () => window.history.back());
 
-function backEvent(){
-    window.history.back();
+//  Functions
+function handleSendMessage() {
+    const text = document.getElementById("inputbox").value;
+    if (!text) { return; }
+    document.getElementById("inputbox").value = '';
+    createMessage(localStorage.getItem('username'), text, chatMessages);
+    updateMessages(chatConfiguration.name, chatMessages);
+    displayMessages(chatMessages);
 }
 
-function addMessage(user,message){
+function displayMessages(messages) {
     const chat = document.getElementById('chat');
-    chat.innerHTML += `<div class="message"> <div class="sender"> ${user} </div> <div class="text"> ${message} </div> </div>`;
+    chat.innerHTML = '';
+    for (i in messages) {
+        const sender = messages[i].sender;
+        const message = messages[i].message;
+        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div><div class="text"> ${message} </div><button onclick="deleteMessage(${i})"> メ </button></div>`;
+    }
 }
 
-//localStorage.getItem('username')
-
-//input
-var chatMessages = JSON.parse(localStorage.getItem('chats-anda'));
-if(chatMessages == null){
-    chatMessages = [];
+// CRUD
+function createMessage(sender, message, messages) {
+    messages.push(
+        {
+            sender: sender,
+            message: message
+        }
+    )
 }
 
-for(let i of chatMessages){
-    addMessage(i.sender, i.message)
+function readMessages(key) {
+    const messages = localStorage.getItem(key);
+    if (!messages) {
+        return [];
+    }
+    return JSON.parse(messages);
 }
 
-console.log();
+function updateMessages(key, messages) {
+    localStorage.setItem(key, JSON.stringify(messages));
+}
 
-//process
-// for(let i of chatMessages){
-//     console.log(i.sender + " : " + i.message);
-// }
-// var newMessage = {
-//     sender : "Undoo",
-//     message : "Helo World!"
-// };
-// chatMessages.push(newMessage)
-// for(let i of chatMessages){
-//     console.log(i.sender + " : " + i.message);
-// }
-// // for(let i in user){
-// //     console.log(user[i] + " : " + message[i]);
-// // }
-// // for(let i of user){
-// //     console.log(i);
-// // }
-// //output
-
-// //function
-// function sum(user,message){
-//     return user + " : " + message;
-// }
+function deleteMessage(index) {
+    if(confirm("Sure Yang?") == true){
+        chatMessages.splice(index,1)
+        displayMessages(chatMessages);
+        updateMessages(chatConfiguration.name,chatMessages)
+    }
+} 

@@ -1,5 +1,6 @@
 body {
-    background-color: #a4f9ff;
+    /* background-color: #a4f9ff; */
+    background-color: red;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -110,4 +111,12 @@ body {
 .back-button:hover {
     background-color: #007bff;
     color: #ffffff;
+}
+
+.del-button {
+    display: none;
+}
+
+.message:hover .del-button {
+    display: flex;
 }

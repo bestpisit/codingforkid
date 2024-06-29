@@ -1,26 +1,30 @@
 //Setup
 const chatConfiguration = {
-    name: "chats-pap"
+    name: "pap"
 };
 
-const chatMessages = readMessages(chatConfiguration.name);
+var chatMessages = [];
 
 main();
-function main() {
-     displayMessages(chatMessages);
+async function main() {
+    chatMessages = await readMessages(chatConfiguration.name);
+    displayMessages(chatMessages);
 }
+
+
 
 //  Events
 document.getElementById('send-buttom').addEventListener('click', handleSendMessage);
 document.getElementById('backclickevent').addEventListener('click', () => window.history.back());
 
 //  Functions
-function handleSendMessage() {
+async function handleSendMessage() {
     const text = document.getElementById("inputbox").value;
     if (!text) { return; }
     document.getElementById("inputbox").value = '';
-    createMessage(localStorage.getItem('username'), text, chatMessages);
-    updateMessages(chatConfiguration.name, chatMessages);
+    await createMessage(localStorage.getItem('username'), text, chatMessages);
+    chatMessages = await readMessages(chatConfiguration.name);
+    //updateMessages(chatConfiguration.name, chatMessages);
     displayMessages(chatMessages);
 }
 
@@ -35,7 +39,17 @@ function displayMessages(messages) {
 }
 
 // CRUD
-function createMessage(sender, message, messages) {
+async function createMessage(sender, message, messages) {
+    if (!sender){
+        alert("pls enter Username")
+        return;
+    };
+    await fetch("http://localhost:3000/rooms/pap",
+        {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message, username: sender })
+        })
     messages.push(
         {
             sender: sender,
@@ -44,23 +58,43 @@ function createMessage(sender, message, messages) {
     )
 }
 
-function readMessages(key) {
-    const messages = localStorage.getItem(key);
-    if (!messages) {
-        return [];
-    }
-    return JSON.parse(messages);
+async function readMessages(key) {
+    getMessageFormServer();
+
+    //const messages = localStorage.getItem(key);
+    //if (!messages) {
+    //    return [];
+    //}
+    //return(messages);
+    return await getMessageFormServer();
+
 }
 
 function updateMessages(key, messages) {
-    localStorage.setItem(key, JSON.stringify(messages));
+    //localStorage.setItem(key, JSON.stringify(messages));
+
 }
 
 function deleteMessage(index) {
     //TODO
-    if(confirm("ห้ามกดเดียวโดนhack") == true){
-    chatMessages.splice(index,1);
-    displayMessages(chatMessages);
-    updateMessages(chatConfiguration.name, chatMessages);
+    if (confirm("ห้ามกดเดียวโดนhack") == true) {
+        chatMessages.splice(index, 1);
+        displayMessages(chatMessages);
+        updateMessages(chatConfiguration.name, chatMessages);
     }
-} 
+}
+
+async function getMessageFormServer() {
+    const response = await fetch("http://localhost:3000/rooms/pap")
+    const data = await response.json();
+    const messages = [];
+    for (msg of data) {
+        const newData = {
+            sender: msg.author.name,
+            message: msg.message
+
+        }
+        messages.push(newData);
+    }
+    return messages;
+}

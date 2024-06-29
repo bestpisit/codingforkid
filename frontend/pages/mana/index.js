@@ -2,14 +2,29 @@
 
 //Setup
 const chatConfiguration = {
-    name: "chats-manat"
+    name: "chats-mana"
 };
 
-const chatMessages = readMessages(chatConfiguration.name);
+var chatMessages = [];
 
 main();
-function main() {
+async function main() {
+    chatMessages = await readMessages(chatConfiguration.name);
     displayMessages(chatMessages);
+}
+
+async function getMessagesFromServer() {
+    const response = await fetch("http://localhost:3000/rooms/chats-mana");
+    const data = await response.json();
+    const message = [];
+    for (msg of data) {
+        const newData = {
+            sender: msg.author.name,
+            message: msg.message
+        }
+        message.push(newData)
+    }
+    return message;
 }
 
 //  Events
@@ -17,12 +32,13 @@ document.getElementById('send_button').addEventListener('click', handleSendMessa
 document.getElementById('back_button').addEventListener('click', () => window.history.back());
 
 //  Functions
-function handleSendMessage() {
+async function handleSendMessage() {
     const text = document.getElementById("inputbar").value;
     if (!text) { return; }
     document.getElementById("inputbar").value = '';
-    createMessage(localStorage.getItem('username'), text, chatMessages);
-    updateMessages(chatConfiguration.name, chatMessages);
+    await createMessage(localStorage.getItem('username'), text, chatMessages);
+    chatMessages = await readMessages(chatConfiguration.name);
+    // updateMessages(chatConfiguration.name, chatMessages);
     displayMessages(chatMessages);
 }
 
@@ -37,37 +53,57 @@ function displayMessages(messages) {
 }
 
 // CRUD
-function createMessage(sender, message, messages) {
-    messages.push(
-        {
-            sender: sender,
-            message: message
-        }
-    )
+async function createMessage(sender, message, messages) {
+    if(!sender){
+        alert("Please enter username.")
+        return;
+    }
+    await fetch("http://localhost:3000/rooms/chats-mana", 
+    {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message, username: sender })
+    });
+    // messages.push(
+    //     {
+    //         sender: sender,
+    //         message: message
+    //     }
+    // )
+
 }
 
-function readMessages(key) {
-    const messages = localStorage.getItem(key);
-    if (!messages) {
-        return [];
-    }
-    return JSON.parse(messages);
+async function readMessages(key) {
+    // const msgFromServer = await getMessagesFromServer();
+    // const messages = msgFromServer;
+    // console.log(messages)
+    // // const messages = localStorage.getItem(key);
+    // if (!messages) {
+    //     return [];
+    // }
+    // return (messages);
+    return await getMessagesFromServer();
+
 }
 
 function updateMessages(key, messages) {
-    localStorage.setItem(key, JSON.stringify(messages));
+
+    // localStorage.setItem(key, JSON.stringify(messages));
 }
 
-function deleteMessage(index) {
-    if(confirm("Are you sure") == true){
-    chatMessages.splice(index,1);
-    displayMessages(chatMessages);
-    updateMessages(chatConfiguration.name,chatMessages)
+async function deleteMessage(index) {
+    if (confirm("Are you sure") == true) {
+        // chatMessages.splice(index, 1);
+        await fetch("http://localhost:3000/rooms/chats-mana", 
+        {
+            method: "DELTE",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message, username: sender })
+        });
+        displayMessages(chatMessages);
+        // updateMessages(chatConfiguration.name, chatMessages)
     }
 }
-
-
-
 
 
 

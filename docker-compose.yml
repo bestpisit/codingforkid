@@ -5,17 +5,23 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    networks:
+      - default-network
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: "postgresql://localhost:postgres@db:5432/postgres"
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/postgres"
+    restart: always
     depends_on:
       - db
     command: >
-      sh -c "npx prisma migrate deploy && node index.js"
+      sh -c "npm run boot && node index.js"
 
   db:
     image: postgres
+    restart: always
+    networks:
+      - default-network
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
@@ -25,3 +31,6 @@ services:
 
 volumes:
   postgres-data:
+
+networks:
+  default-network:

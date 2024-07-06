@@ -3,7 +3,7 @@
 //Setup
 const chatConfiguration = {
     name: "chats-best",
-    api_url: "http://localhost:3000"
+    api_url: "https://codingforkids.eastasia.cloudapp.azure.com"
 };
 
 var chatMessages = [];

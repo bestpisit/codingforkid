@@ -2,7 +2,8 @@
 
 //Setup
 const chatConfiguration = {
-    name: "chats-best"
+    name: "chats-best",
+    api_url: "http://localhost:3000"
 };
 
 var chatMessages = [];
@@ -44,7 +45,7 @@ async function createMessage(sender, message, messages) {
         alert("Please Enter Your Username");
         return;
     };
-    await fetch("http://192.168.10.109:3000/rooms/chats-best",
+    await fetch(`${chatConfiguration.api_url}/rooms/chats-best`,
         {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -75,7 +76,7 @@ function updateMessages(key, messages) {
 async function deleteMessage(index) {
     if (confirm("Are you sure") == true) {
         // chatMessages.splice(index, 1);
-        await fetch(`http://192.168.10.109:3000/rooms/chats-best/${index}`,
+        await fetch(`${chatConfiguration.api_url}/rooms/chats-best/${index}`,
             {
                 method: "DELETE",
             })
@@ -86,7 +87,7 @@ async function deleteMessage(index) {
 }
 
 async function getMessageFromServer() {
-    const response = await fetch("http://192.168.10.109:3000/rooms/chats-best")
+    const response = await fetch(`${chatConfiguration.api_url}/rooms/chats-best`)
     const data = await response.json();
     const messages = [];
     for (msg of data) {

@@ -1,6 +1,7 @@
 //Setup
 const chatConfiguration = {
-    name: "chats-anda"
+    name: "chats-anda",
+    api_url: "https://codingforkids.eastasia.cloudapp.azure.com"
 };
 
 var chatMessages = [];
@@ -43,7 +44,7 @@ async function createMessage(sender, message, messages) {
         alert("plesae enter your username")
         return;
     };
-    await fetch("http://localhost:3000/rooms/chats-anda",
+    await fetch(`${chatConfiguration.api_url}/rooms/chats-anda`,
         {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -74,7 +75,7 @@ function deleteMessage(index) {
 } 
 
 async function getMessageFromServer(){
-    const response = await fetch("http://localhost:3000/rooms/chats-anda")
+    const response = await fetch(`${chatConfiguration.api_url}/rooms/chats-anda`)
     const data = await response.json();
     const msgz = []
     for(msg of data){

@@ -62,12 +62,9 @@ body {
     bottom: 0;
 }
 
-.delete-buttom {
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 5px 10px;
-    margin-left: auto;
+.del-buttom {
+    display: none;
+}
+.message:hover .del-buttom {
+    display: block;
 }

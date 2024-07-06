@@ -1,27 +1,46 @@
 //Setup
 const chatConfiguration = {
-    name: "chats-gun"
+    name: "chats-gun",
+    api_url: "https://codingforkids.eastasia.cloudapp.azure.com"
 };
 
-const chatMessages = readMessages(chatConfiguration.name);
+var chatMessages = [];
+
 
 main();
-function main() {
-    // document.getElementById('chat-name').innerHTML = chatConfiguration.name
+async function main() {
+    chatMessages = await readMessages(chatConfiguration.name)
     displayMessages(chatMessages);
 }
+
+async function getMessageFromServer() {
+    const response = await fetch(`${chatConfiguration.api_url}/rooms/gun`);
+    const data = await response.json();
+    const message = []
+    for (msg of data) {
+        const newData = {
+            sender: msg.author.name,
+            message: msg.message
+        }
+        message.push(newData)
+    }
+    return message
+}
+
+
 
 //  Events
 document.getElementById('send-button').addEventListener('click', handleSendMessage);
 document.getElementById('back-button').addEventListener('click', () => window.history.back());
 
 //  Functions
-function handleSendMessage() {
+async function handleSendMessage() {
     const text = document.getElementById("inputbox").value;
     if (!text) { return; }
     document.getElementById("inputbox").value = '';
-    createMessage(localStorage.getItem('username'), text, chatMessages);
-    updateMessages(chatConfiguration.name, chatMessages);
+    await createMessage(localStorage.getItem('username'), text, chatMessages);
+    chatMessages = await readMessages(chatConfiguration.name);
+    // updateMessages(chatConfiguration.name, chatMessages);
     displayMessages(chatMessages);
 }
 
@@ -36,32 +55,39 @@ function displayMessages(messages) {
 }
 
 // CRUD
-function createMessage(sender, message, messages) {
-    messages.push(
+async function createMessage(sender, message, messages) {
+    if (!sender) {
+        alert("Name please");
+        return;
+    };
+    await fetch(`${chatConfiguration.api_url}/rooms/gun`,
         {
-            sender: sender,
-            message: message
-        }
-    )
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message, username: sender })
+        })
 }
 
-function readMessages(key) {
-    const messages = localStorage.getItem(key);
-    if (!messages) {
-        return [];
-    }
-    return JSON.parse(messages);
+async function readMessages(key) {
+    // const messages = localStorage.getItem(key);
+    // if (!messages) {
+    //     return [];
+    // }
+    // return JSON.parse(messages);
+    return await getMessageFromServer();
 }
 
 function updateMessages(key, messages) {
-    localStorage.setItem(key, JSON.stringify(messages));
+    // localStorage.setItem(key, JSON.stringify(messages));
+    u
 }
 
 function deleteMessage(index) {
-    if(confirm("Are you sure?") == true){
+    if (confirm("Are you sure?") == true) {
 
-    chatMessages.splice(index,1);
-    displayMessages(chatMessages);
-    updateMessages(chatConfiguration.name, chatMessages);
+        chatMessages.splice(index, 1);
+        displayMessages(chatMessages);
+        updateMessages(chatConfiguration.name, chatMessages);
     }
 }
+

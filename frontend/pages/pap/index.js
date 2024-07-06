@@ -1,6 +1,7 @@
 //Setup
 const chatConfiguration = {
-    name: "pap"
+    name: "pap",
+    api_url: "https://codingforkids.eastasia.cloudapp.azure.com"
 };
 
 var chatMessages = [];
@@ -44,18 +45,12 @@ async function createMessage(sender, message, messages) {
         alert("pls enter Username")
         return;
     };
-    await fetch("http://localhost:3000/rooms/pap",
+    await fetch(`${chatConfiguration.api_url}/rooms/pap`,
         {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: message, username: sender })
         })
-    messages.push(
-        {
-            sender: sender,
-            message: message
-        }
-    )
 }
 
 async function readMessages(key) {
@@ -85,7 +80,7 @@ function deleteMessage(index) {
 }
 
 async function getMessageFormServer() {
-    const response = await fetch("http://localhost:3000/rooms/pap")
+    const response = await fetch(`${chatConfiguration.api_url}/rooms/pap`)
     const data = await response.json();
     const messages = [];
     for (msg of data) {

@@ -1,80 +1,100 @@
-// Setup
+
+
+//Setup
 const chatConfiguration = {
     name: "chats-best"
 };
 
-document.addEventListener("DOMContentLoaded", main);
+var chatMessages = [];
 
+main();
 async function main() {
-    document.getElementById('chat-name').innerText = chatConfiguration.name;
-    await displayMessages();
-
-    // Event listeners
-    document.getElementById('send-button').addEventListener('click', handleSendMessage);
-    document.getElementById('back-button').addEventListener('click', () => window.history.back());
+    chatMessages = await readMessages(chatConfiguration.name);
+    displayMessages(chatMessages);
 }
 
-// Functions
+//  Events
+document.getElementById('send-button').addEventListener('click', handleSendMessage);
+document.getElementById('back-button').addEventListener('click', () => window.history.back());
+
+//  Functions
 async function handleSendMessage() {
     const text = document.getElementById("inputbox").value;
-    const username = localStorage.getItem('username') || 'defaultUser';
     if (!text) { return; }
     document.getElementById("inputbox").value = '';
-
-    await createMessage(chatConfiguration.name, username, text);
-    await displayMessages();
+    await createMessage(localStorage.getItem('username'), text, chatMessages);
+    chatMessages = await readMessages(chatConfiguration.name);
+    // updateMessages(chatConfiguration.name, chatMessages);
+    displayMessages(chatMessages);
 }
 
-async function displayMessages() {
+function displayMessages(messages) {
     const chat = document.getElementById('chat');
     chat.innerHTML = '';
-
-    const messages = await fetchMessages(chatConfiguration.name);
-    for (let i = 0; i < messages.length; i++) {
-        const sender = messages[i].author.name;
+    for (i in messages) {
+        const sender = messages[i].sender;
         const message = messages[i].message;
-        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div><div class="text"> ${message} </div><button class="del-button" onclick="deleteMessage(${i}, ${messages[i].id})">X</button></div>`;
+        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div> <div class="text"> ${message} </div> <button onclick="deleteMessage(${i})"> Delete</button> </div>`;
     }
 }
 
-// CRUD Operations
-async function createMessage(room, username, message) {
-    try {
-        await fetch(`http://localhost:3000/rooms/${room}`, {
-            method: 'POST',
+// CRUD
+async function createMessage(sender, message, messages) {
+    if(!sender){
+        alert("Please Enter Your Username");
+        return;
+    };
+    await fetch("http://192.168.10.109:3000/rooms/chats-best",
+        {
+            method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message, username })
-        });
-    } catch (error) {
-        console.error('Error creating message:', error);
+            body: JSON.stringify({ message: message, username: sender })
+        })
+    // messages.push(
+    //     {
+    //         sender: sender,
+    //         message: message
+    //     }
+    // )
+}
+
+async function readMessages(key) {
+    // getMessageFromServer();
+    // const messages = localStorage.getItem(key);
+    // if (!messages) {
+    //     return [];
+    // }
+    // return JSON.parse(messages);
+    return await getMessageFromServer();
+}
+
+function updateMessages(key, messages) {
+    // localStorage.setItem(key, JSON.stringify(messages));
+}
+
+async function deleteMessage(index) {
+    if (confirm("Are you sure") == true) {
+        // chatMessages.splice(index, 1);
+        await fetch(`http://192.168.10.109:3000/rooms/chats-best/${index}`,
+            {
+                method: "DELETE",
+            })
+        chatMessages = await readMessages(chatConfiguration.name);
+        displayMessages(chatMessages);
+        // updateMessages(chatConfiguration.name, chatMessages)
     }
 }
 
-async function fetchMessages(room) {
-    try {
-        const response = await fetch(`http://localhost:3000/rooms/${room}`);
-        if (response.ok) {
-            return await response.json();
-        } else {
-            console.error('Error fetching messages:', response.statusText);
-            return [];
+async function getMessageFromServer() {
+    const response = await fetch("http://192.168.10.109:3000/rooms/chats-best")
+    const data = await response.json();
+    const messages = [];
+    for (msg of data) {
+        const newData = {
+            sender: msg.author.name,
+            message: msg.message
         }
-    } catch (error) {
-        console.error('Error fetching messages:', error);
-        return [];
+        messages.push(newData);
     }
-}
-
-async function deleteMessage(index, messageId) {
-    const room = chatConfiguration.name;
-    if (confirm("Are you sure?")) {
-        try {
-            await fetch(`http://localhost:3000/rooms/${room}/${messageId}`, {
-                method: 'DELETE'
-            });
-            await displayMessages();
-        } catch (error) {
-            console.error('Error deleting message:', error);
-        }
-    }
+    return messages;
 }

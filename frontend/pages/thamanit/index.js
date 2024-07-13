@@ -62,6 +62,7 @@ async function readMessages() {
     // }
     // return JSON.parse(messages);
     chatMessages = await getMessageFromServer();
+    displayMessages(chatMessages);
 }
 
 function updateMessages(key, messages) {

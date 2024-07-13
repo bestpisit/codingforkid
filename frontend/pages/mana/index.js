@@ -89,7 +89,7 @@ async function readMessages() {
 
 
     chatMessages = await getMessagesFromServer();
-
+    displayMessages(chatMessages);
 }
 
 function updateMessages(key, messages) {

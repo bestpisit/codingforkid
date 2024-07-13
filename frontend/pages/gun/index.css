@@ -61,3 +61,11 @@ body{
 #back-button{
     position: absolute;
 }
+
+.del-button{
+    display: none;
+}
+
+.message:hover .del-button {
+    display: flex;
+}

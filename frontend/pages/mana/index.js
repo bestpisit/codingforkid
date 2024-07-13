@@ -10,8 +10,11 @@ var chatMessages = [];
 
 main();
 async function main() {
-    chatMessages = await readMessages(chatConfiguration.name);
+    await readMessages();
     displayMessages(chatMessages);
+
+    //Continuos get data
+    setInterval(readMessages,1000)
 }
 
 async function getMessagesFromServer() {
@@ -38,7 +41,7 @@ async function handleSendMessage() {
     if (!text) { return; }
     document.getElementById("inputbar").value = '';
     await createMessage(localStorage.getItem('username'), text, chatMessages);
-    chatMessages = await readMessages(chatConfiguration.name);
+    await readMessages();
     // updateMessages(chatConfiguration.name, chatMessages);
     displayMessages(chatMessages);
 }
@@ -74,7 +77,7 @@ async function createMessage(sender, message, messages) {
 
 }
 
-async function readMessages(key) {
+async function readMessages() {
     // const msgFromServer = await getMessagesFromServer();
     // const messages = msgFromServer;
     // console.log(messages)
@@ -83,7 +86,9 @@ async function readMessages(key) {
     //     return [];
     // }
     // return (messages);
-    return await getMessagesFromServer();
+
+
+    chatMessages = await getMessagesFromServer();
 
 }
 

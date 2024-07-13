@@ -67,6 +67,7 @@ async function readMessages() {
     //return(messages);
 
     chatMessages = await getMessageFormServer();
+    displayMessages(chatMessages);
 }
 
 function updateMessages(key, messages) {

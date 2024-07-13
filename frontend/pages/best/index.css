@@ -39,6 +39,7 @@ body {
     flex-direction: column;
     gap: 15px;
     overflow-y: auto;
+    max-height: 400px;
 }
 
 .message-bar {

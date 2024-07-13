@@ -12,6 +12,8 @@ main();
 async function main() {
     await readMessages();
     displayMessages(chatMessages);
+    const chatMenu = document.getElementById("chat");
+    chatMenu.scrollTop = chatMenu.scrollHeight;
 
     //Continuous Get Data
     setInterval(readMessages,1000);
@@ -70,6 +72,7 @@ async function readMessages() {
     // }
     // return JSON.parse(messages);
     chatMessages = await getMessageFromServer();
+    displayMessages(chatMessages);
 }
 
 function updateMessages(key, messages) {

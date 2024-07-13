@@ -5,14 +5,18 @@ const chatConfiguration = {
 };
 
 var chatMessages = [];
+var befChat = [];
 
 main();
 async function main() {
     chatMessages = await readMessages(chatConfiguration.name);
     displayMessages(chatMessages);
-
+    
     //Continuous Get Data
     setInterval(readMessages,1000)
+
+    const chatMenu = document.getElementById("chat");
+    chatMenu.scrollTop = chatMenu.scrollHeight;
 }
 
 
@@ -61,8 +65,15 @@ async function readMessages() {
     //     return [];
     // }
     // return JSON.parse(messages);
+    befChat = chatMessages?.map(msg=>msg);
     chatMessages = await getMessageFromServer();
     displayMessages(chatMessages);
+
+    if(befChat?.length != chatMessages?.length){
+        const chatMenu = document.getElementById("chat");
+    chatMenu.scrollTop = chatMenu.scrollHeight;
+    }
+    
 }
 
 function updateMessages(key, messages) {

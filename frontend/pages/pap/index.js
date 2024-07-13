@@ -8,8 +8,11 @@ var chatMessages = [];
 
 main();
 async function main() {
-    chatMessages = await readMessages(chatConfiguration.name);
+    await readMessages();
     displayMessages(chatMessages);
+
+    //Continuous get data
+    setInterval(readMessages,1000)
 }
 
 
@@ -24,9 +27,10 @@ async function handleSendMessage() {
     if (!text) { return; }
     document.getElementById("inputbox").value = '';
     await createMessage(localStorage.getItem('username'), text, chatMessages);
-    chatMessages = await readMessages(chatConfiguration.name);
+    await readMessages();
     //updateMessages(chatConfiguration.name, chatMessages);
     displayMessages(chatMessages);
+
 }
 
 function displayMessages(messages) {
@@ -53,16 +57,16 @@ async function createMessage(sender, message, messages) {
         })
 }
 
-async function readMessages(key) {
-    getMessageFormServer();
+async function readMessages() {
 
+    //getMessageFormServer();
     //const messages = localStorage.getItem(key);
     //if (!messages) {
     //    return [];
     //}
     //return(messages);
-    return await getMessageFormServer();
 
+    chatMessages = await getMessageFormServer();
 }
 
 function updateMessages(key, messages) {

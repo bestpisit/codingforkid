@@ -1,7 +1,7 @@
 //Setup
 const chatConfiguration = {
     name: "chats-anda",
-    api_url: "https://codingforkids.eastasia.cloudapp.azure.com"
+    api_url: "http://localhost:3000"
 };
 
 var chatMessages = [];
@@ -9,11 +9,12 @@ var befChat = [];
 
 main();
 async function main() {
-    chatMessages = await readMessages(chatConfiguration.name);
-    displayMessages(chatMessages);
+    await readMessages();
     
     //Continuous Get Data
-    setInterval(readMessages,1000)
+    // setInterval(readMessages,1000)
+
+    console.log(chatMessages)
 
     const chatMenu = document.getElementById("chat");
     chatMenu.scrollTop = chatMenu.scrollHeight;
@@ -41,7 +42,8 @@ function displayMessages(messages) {
     for (i in messages) {
         const sender = messages[i].sender;
         const message = messages[i].message;
-        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div><div class="text"> ${message} </div><button class="del-button" onclick="deleteMessage(${i})"> メ </button></div>`;
+        const id = messages[i].id;
+        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div><div class="text"> ${message} </div><button class="del-button" onclick="deleteMessage(${id})"> メ </button></div>`;
     }
 }
 
@@ -67,6 +69,9 @@ async function readMessages() {
     // return JSON.parse(messages);
     befChat = chatMessages?.map(msg=>msg);
     chatMessages = await getMessageFromServer();
+
+    //console.log(chatMessages)
+
     displayMessages(chatMessages);
 
     if(befChat?.length != chatMessages?.length){
@@ -81,11 +86,13 @@ function updateMessages(key, messages) {
     
 }
 
-function deleteMessage(index) {
-    if(confirm("Sure Yang?") == true){
-        chatMessages.splice(index,1)
-        displayMessages(chatMessages);
-        updateMessages(chatConfiguration.name,chatMessages)
+async function deleteMessage(id) {
+    if(confirm("Sure Yang?"+id) == true){
+        await fetch(`${chatConfiguration.api_url}/rooms/chats-anda/${id}`,
+            {
+                method: "DELETE",
+            })
+            await readMessages();
     }
 } 
 
@@ -93,12 +100,20 @@ async function getMessageFromServer(){
     const response = await fetch(`${chatConfiguration.api_url}/rooms/chats-anda`)
     const data = await response.json();
     const msgz = []
+    console.log(data);
     for(msg of data){
         const newData = {
+            id: msg.id,
             sender: msg.author.name,
             message: msg.message
         }
         msgz.push(newData)
     }
+
+    //sort
+    msgz.sort((a,b)=>a.id-b.id);
+
+    console.log(msgz);
+
     return msgz;
 }

@@ -3,7 +3,7 @@
 //Setup
 const chatConfiguration = {
     name: "chats-mana",
-    api_url: "https://codingforkids.eastasia.cloudapp.azure.com"
+    api_url: "http://localhost:3000"
 };
 
 var chatMessages = [];
@@ -15,21 +15,26 @@ async function main() {
     const chatMenu = document.getElementById("chat")
     chatMenu.scrollTop = chatMenu.scrollHeight
     //Continuos get data
-    setInterval(readMessages,1000)
+    //setInterval(readMessages,1000)
 }
 
 async function getMessagesFromServer() {
     const response = await fetch(`${chatConfiguration.api_url}/rooms/chats-mana`);
     const data = await response.json();
-    const message = [];
+    const messages = [];
+    // console.log(data);
     for (msg of data) {
         const newData = {
             sender: msg.author.name,
-            message: msg.message
+            message: msg.message,
+            id : msg.id
         }
-        message.push(newData)
+        messages.push(newData);
     }
-    return message;
+    // sort
+    messages.sort((a,b)=> a.id-b.id);
+    console.log(messages)
+    return messages;
 }
 
 //  Events
@@ -53,11 +58,13 @@ function displayMessages(messages) {
     for (i in messages) {
         const sender = messages[i].sender;
         const message = messages[i].message;
-        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div> <div class="text"> ${message} </div> <button class="del-button" onclick="deleteMessage(${i})"> Delete</button> </div>`;
+        const id = messages[i].id;
+        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div> <div class="text"> ${message} </div> <button class="del-button" onclick="deleteMessage(${id})"> Delete</button> </div>`;
     }
 }
 
 // CRUD
+
 async function createMessage(sender, message, messages) {
     if(!sender){
         alert("Please enter username.")
@@ -90,6 +97,7 @@ async function readMessages() {
 
 
     chatMessages = await getMessagesFromServer();
+    // console.log(chatMessages);
     displayMessages(chatMessages);
 }
 
@@ -98,20 +106,21 @@ function updateMessages(key, messages) {
     // localStorage.setItem(key, JSON.stringify(messages));
 }
 
-async function deleteMessage(index) {
-    if (confirm("Are you sure") == true) {
-        // chatMessages.splice(index, 1);
-        await fetch(`${chatConfiguration.api_url}/rooms/chats-mana`, 
-        {
-            method: "DELTE",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: message, username: sender })
-        });
-        displayMessages(chatMessages);
-        // updateMessages(chatConfiguration.name, chatMessages)
+async function deleteMessage(id) {
+    if (confirm("Are you sure"+id) == true) {
+        await fetch(`${chatConfiguration.api_url}/rooms/chats-mana/${id}`, 
+            {
+                method: "DELETE",
+            });
+        await readMessages()
     }
 }
-
+// await fetch(`${chatConfiguration.api_url}/rooms/chats-mana`, 
+//         {
+//             method: "DELTE",
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({ message: message, username: sender })
+//         });
 
 
 

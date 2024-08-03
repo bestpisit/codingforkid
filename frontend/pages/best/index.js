@@ -3,7 +3,7 @@
 //Setup
 const chatConfiguration = {
     name: "chats-best",
-    api_url: "https://codingforkids.eastasia.cloudapp.azure.com"
+    api_url: "http://localhost:3000"
 };
 
 var chatMessages = [];
@@ -16,7 +16,7 @@ async function main() {
     chatMenu.scrollTop = chatMenu.scrollHeight;
 
     //Continuous Get Data
-    setInterval(readMessages,1000);
+    // setInterval(readMessages,1000);
 }
 
 //  Events
@@ -40,7 +40,8 @@ function displayMessages(messages) {
     for (i in messages) {
         const sender = messages[i].sender;
         const message = messages[i].message;
-        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div> <div class="text"> ${message} </div> <button onclick="deleteMessage(${i})"> Delete</button> </div>`;
+        const id = messages[i].id ;
+        chat.innerHTML += `<div class="message"><div class="sender"> ${sender} </div> <div class="text"> ${message} </div> <button onclick="deleteMessage(${id})"> Delete</button> </div>`;
     }
 }
 
@@ -72,6 +73,7 @@ async function readMessages() {
     // }
     // return JSON.parse(messages);
     chatMessages = await getMessageFromServer();
+    // console.log(chatMessages);
     displayMessages(chatMessages);
 }
 
@@ -79,29 +81,61 @@ function updateMessages(key, messages) {
     // localStorage.setItem(key, JSON.stringify(messages));
 }
 
-async function deleteMessage(index) {
-    if (confirm("Are you sure") == true) {
-        // chatMessages.splice(index, 1);
-        await fetch(`${chatConfiguration.api_url}/rooms/chats-best/${index}`,
+async function deleteMessage(id) {
+    if (confirm("Are you sure "+id) == true) {
+        await fetch(`${chatConfiguration.api_url}/rooms/chats-best/${id}`,
             {
-                method: "DELETE",
+                method: "DELETE"
             })
         await readMessages();
-        displayMessages(chatMessages);
-        // updateMessages(chatConfiguration.name, chatMessages)
     }
 }
+
+// await fetch(`${chatConfiguration.api_url}/rooms/chats-best/${index}`,
+//     {
+//         method: "DELETE",
+//     })
+// await readMessages();
 
 async function getMessageFromServer() {
     const response = await fetch(`${chatConfiguration.api_url}/rooms/chats-best`)
     const data = await response.json();
     const messages = [];
+
     for (msg of data) {
         const newData = {
             sender: msg.author.name,
-            message: msg.message
+            message: msg.message,
+            id: msg.id
         }
         messages.push(newData);
     }
+
+    const arr = [5,2,1,3,4];
+    console.log(arr);
+
+    //sort
+    let swap = true;
+    while(swap==true){
+        swap=false;
+        for(let i=0;i<arr.length-1;i++){
+            if(arr[i] > arr[i+1]){
+                //swap
+                let hold = arr[i];
+                arr[i] = arr[i+1];
+                arr[i+1] = hold;
+                swap=true;
+            }
+        }
+    }
+
+    console.log(arr);
+    messages.sort((a,b)=>a.id-b.id);
+
+
+
+    // console.log(messages);
+
+
     return messages;
 }

@@ -1,61 +1,71 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
 body {
-    background-color: #ff5d17;
+    background-color: #f0f2f5; /* Neutral background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0;
+    padding: 20px;
     margin: 0;
-    font-family: 'Arial', sans-serif;
     overflow: hidden;
 }
 
+/* Group Styling */
 .group {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 2rem;
+    font-weight: 600;
     text-align: center;
-    color: #ffffff;
+    color: #333; /* Darker text color for better readability */
     margin-bottom: 20px;
     animation: fadeIn 1s ease-in-out;
 }
 
+/* Chat Area Styling */
 .chatarea {
-    flex-grow: 1;
-    width: 90%;
-    max-width: 600px;
+    width: 100%;
+    height:400px;
+    max-width: 500px;
+    max-height: 300px;
     background-color: #ffffff;
     padding: 20px;
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     animation: slideIn 0.5s ease-in-out;
     overflow-y: auto;
-    max-height: 800px;
+    max-height: 80vh; /* Adjust height for better scrolling */
 }
 
+/* Message Styling */
 .message {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 20px;
-    /* animation: fadeIn 0.5s ease-in-out; */
+    flex-direction: column;
+    gap: 10px;
     position: relative;
 }
 
 .message .text {
-    background-color: #ffe6d9;
-    padding: 15px;
+    background-color: #e6f4f1;
+    padding: 12px;
     font-size: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     word-break: break-word;
-    color: #495057;
-    flex-grow: 1;
+    color: #333;
 }
 
+/* Delete Button Styling */
 .message .del-button {
     display: none;
     position: absolute;
@@ -73,49 +83,44 @@ body {
     display: block;
 }
 
+/* Message Bar Styling */
 .message_bar {
     display: flex;
-    width: 90%; /* Adjusted to fit better */
-    max-width: 600px; /* Consistent max width */
+    width: 100%;
+    max-width: 500px;
     align-items: center;
-    padding-bottom: 5%;
+    padding-top: 10px;
     gap: 10px;
+    border-top: 1px solid #ddd; /* Light border for separation */
 }
 
-.message .sender {
-    display: flex;
-    align-items: center;
-}
-
+/* Input Bar Styling */
 #inputbar {
     flex-grow: 1;
-    padding: 8px 12px;
-    border: 1px solid #ced4da;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
     border-radius: 25px;
     font-size: 0.875rem;
-    color: #495057;
-    transition: border-color 0.3s ease;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
     outline: none;
-    height: 30px;
 }
 
 #inputbar:focus {
     border-color: #ff5d17;
-    box-shadow: 0 0 8px rgba(255, 93, 23, 0.2); /* Subtle shadow on focus */
+    box-shadow: 0 0 8px rgba(255, 93, 23, 0.2);
 }
 
+/* Send Button Styling */
 #send_button {
     background-color: #ff5d17;
     color: #ffffff;
     border: none;
     border-radius: 25px;
-    padding: 8px 16px;
+    padding: 10px 20px;
     font-size: 0.875rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 #send_button:hover {
@@ -123,18 +128,20 @@ body {
     transform: scale(1.05);
 }
 
+/* Back Button Styling */
 #back_button {
     font-size: 1rem;
     background-color: #ffffff;
     color: #ff5d17;
     border: 2px solid #ff5d17;
     border-radius: 25px;
-    padding: 5px 15px;
-    position: absolute;
-    left: 20px;
-    top: 20px;
+    padding: 8px 16px;
+    position: fixed; /* Changed to fixed to stay in view */
+    right: 160px; /* Move to the right side */
+    top: 12px; /* Adjusted to be below the header */
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    z-index: 1001; /* Ensure it's above other elements */
 }
 
 #back_button:hover {
@@ -155,17 +162,6 @@ body {
 
 @keyframes slideIn {
     from {
-        transform: translateY(50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes newMessage {
-    from {
         transform: translateY(20px);
         opacity: 0;
     }
@@ -173,4 +169,140 @@ body {
         transform: translateY(0);
         opacity: 1;
     }
+}/* Footer Styling */
+.footer {
+    width: 100%;
+    max-width: 500px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #333;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.875rem;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+.footer a {
+    color: #ff5d17;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Footer Styling */
+.footer {
+    width: 100%;
+    max-width: 500px;
+    background: linear-gradient(135deg, #ff5d17, #ff9a52); /* Gradient background */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #ffffff; /* Light text color for better contrast */
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.875rem;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+.footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Header Styling */
+.header {
+    width: 100%;
+    max-width: 100%;
+    background-color: #ffffff;
+    padding: 15px 20px;
+    border-bottom: 2px solid #ff5d17; /* Accent color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000; /* Ensures header stays on top */
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    color: #ff5d17;
+    margin: 0;
+}
+
+.header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.header nav a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.header nav a:hover {
+    color: #ff5d17;
+}
+
+/* Adjust layout to account for fixed header */
+body {
+    padding-top: 60px; /* Height of header */
+    background-color: #f0f2f5;
+}
+
+/* Footer Styling (for reference) */
+.footer {
+    width: 100%;
+    max-width: 500px;
+    background: linear-gradient(135deg, #ff5d17, #ff9a52);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #ffffff;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.875rem;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+.footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }

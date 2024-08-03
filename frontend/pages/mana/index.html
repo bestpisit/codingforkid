@@ -1,27 +1,39 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="index.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Modern Chat Interface</title>
 </head>
-</head>
-
 <body>
-    <button id="back_button"> go back</button>
+    <!-- Header -->
+    <header class="header">
+        <h1>Chat Application</h1>
+        <nav>
+            <ul>
+                <button id="back_button">Go Back</button>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="group"> Name </div>
 
-    <div class="chatarea" id="chat">
-        
-    </div>
+    <div class="group">Chat</div>
 
-
+    <div class="chatarea" id="chat"></div>
 
     <div class="message_bar">
-        <input id="inputbar" />
-        <button id="send_button"> Send</button>
+        <input id="inputbar" placeholder="Type a message...">
+        <button id="send_button">Send</button>
     </div>
-</body>
-<script src="index.js"></script>
 
+    <footer class="footer">
+        <p>&copy; 2024 Pizza. All rights reserved.</p>
+        <p>Designed by <a href="#">mana</a></p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
 </html>

@@ -54,7 +54,7 @@ async function createMessage(sender, message, messages) {
     await fetch(`${chatConfiguration.api_url}/rooms/chats-best`,
         {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json','Authorization': `Bearer ${localStorage.getItem('token')}` },
             body: JSON.stringify({ message: message, username: sender })
         })
     // messages.push(
@@ -85,7 +85,10 @@ async function deleteMessage(id) {
     if (confirm("Are you sure "+id) == true) {
         await fetch(`${chatConfiguration.api_url}/rooms/chats-best/${id}`,
             {
-                method: "DELETE"
+                method: "DELETE",
+                headers:{
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
             })
         await readMessages();
     }
@@ -98,7 +101,16 @@ async function deleteMessage(id) {
 // await readMessages();
 
 async function getMessageFromServer() {
-    const response = await fetch(`${chatConfiguration.api_url}/rooms/chats-best`)
+    await fetch(`${chatConfiguration.api_url}/auth/me`,{
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    const response = await fetch(`${chatConfiguration.api_url}/rooms/chats-best`,{
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
     const data = await response.json();
     const messages = [];
 

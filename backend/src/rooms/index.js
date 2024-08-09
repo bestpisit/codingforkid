@@ -8,6 +8,7 @@ const router = express.Router();
 const roomsDir = path.join(__dirname);
 
 router.post('/create', async (req, res) => {
+    console.log(req.user);
     const { name } = req.body;
     let room = await prisma.room.findFirst({
         where: {
@@ -58,9 +59,10 @@ router.get('/:roomid', async (req, res) => {
 
 router.post('/:roomid', async (req, res) => {
     const { roomid } = req.params;
-    const { message, username } = req.body;
+    const { message } = req.body;
+    const user = req.user;
 
-    if(!username) return res.status(400).json({error: "Invalid Username"});
+    if (!user) return res.status(400).json({ error: "Invalid User" });
 
     try {
         // Find the room by name to get its ID
@@ -72,17 +74,6 @@ router.post('/:roomid', async (req, res) => {
         if (!room) {
             return res.status(404).json({ error: "Room not found" });
         }
-
-        // Upsert the user (create if doesn't exist)
-        const user = await prisma.user.upsert({
-            where: {
-                name: username
-            },
-            update: {},
-            create: {
-                name: username
-            }
-        });
 
         // Create the message
         const newMessage = await prisma.message.create({
@@ -102,17 +93,20 @@ router.post('/:roomid', async (req, res) => {
 
 router.delete('/:roomid/:msgid', async (req, res) => {
     const { roomid, msgid } = req.params;
+    const user = req.user;
     try {
         const message = await prisma.message.findFirst(
             {
                 where: {
-                    id: {equals: parseInt(msgid)}
+                    id: { equals: parseInt(msgid) },
+                    author_id: { equals: user.id }
                 },
                 select: {
                     room_id: true
                 }
             }
         );
+        if(!message) return res.status(500).json({ error: "Invalid message or not an author" });
         const aRoom = await prisma.room.findFirst({
             where: {
                 name: roomid
@@ -133,13 +127,5 @@ router.delete('/:roomid/:msgid', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
-// fs.readdirSync(roomsDir).forEach((folder) => {
-//     const folderPath = path.join(roomsDir, folder);
-//     if (fs.statSync(folderPath).isDirectory()) {
-//         const roomRouter = require(path.join(folderPath, 'index.js'));
-//         router.use(`/${folder}`, roomRouter);
-//     }
-// });
 
 module.exports = router;
